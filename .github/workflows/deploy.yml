@@ -1,0 +1,32 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # 1. Pull the latest code
+            if [ ! -d "ExpenseTracker" ]; then
+              git clone https://github.com/Gaurav20112003/ExpenseTracker.git
+            fi
+            cd ExpenseTracker
+            git pull origin main
+            
+            # 2. Recreate the hidden .env file on the server securely
+            echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
+            
+            # 3. Rebuild and restart the Docker container
+            sudo docker stop ai-expense-api || true
+            sudo docker rm ai-expense-api || true
+            sudo docker build -t ai-expense-api .
+            sudo docker run -d --name ai-expense-api -p 8000:8000 --env-file .env ai-expense-api
