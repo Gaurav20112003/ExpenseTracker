@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f6f2">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Expense Tracker home">
+          <span class="brand-mark" aria-hidden="true">₹</span>
+          <span>Expense<span class="brand-light">Tracker</span></span>
+        </a>
+        <span class="local-badge"><span aria-hidden="true"></span> Single local ledger</span>
+      </header>
+
+      <section class="intro">
+        <p class="eyebrow">YOUR MONEY, IN FOCUS</p>
+        <h1>Every expense,<br><span>right where it belongs.</span></h1>
+        <p class="intro-copy">Write it the way you remember it. We’ll organize the details for you.</p>
+      </section>
+
+      <section class="add-card" aria-labelledby="add-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">QUICK CAPTURE</p>
+            <h2 id="add-heading">Add an expense</h2>
+          </div>
+          <span class="sparkle" aria-hidden="true">+</span>
+        </div>
+        <form id="expense-form">
+          <label for="expense-text">What did you spend on?</label>
+          <textarea
+            id="expense-text"
+            name="text"
+            rows="2"
+            placeholder="e.g. ₹12.50 lunch at the cafe today"
+            required
+            minlength="1"
+          ></textarea>
+          <div class="form-footer">
+            <p>We’ll save the expense date and the time you add it.</p>
+            <button class="primary-button" type="submit">
+              <span>Add expense</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="ledger" aria-labelledby="ledger-heading">
+        <div class="ledger-header">
+          <div>
+            <p class="eyebrow">YOUR ACTIVITY</p>
+            <h2 id="ledger-heading">Expense history</h2>
+          </div>
+          <label class="date-filter">
+            <span class="sr-only">Filter by expense date</span>
+            <input id="date-filter" type="date">
+          </label>
+        </div>
+        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+        <div id="expense-list" class="expense-list" aria-live="polite"></div>
+      </section>
+
+      <footer>
+        Stored locally in your app’s SQLite database.
+      </footer>
+    </main>
+  </body>
+</html>
